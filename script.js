@@ -1,8 +1,8 @@
 const listContainer = document.querySelector('ul');
 
 const taskList = [
-    'Fuck Susan',
-    'Eat Pussy'
+    'car wash',
+    'cook'
 ]
 
 function listPopulation() {
