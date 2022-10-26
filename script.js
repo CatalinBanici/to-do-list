@@ -1,9 +1,23 @@
-const listContainer = document.querySelector('ul');
+const listContainerSelector = document.querySelector('ul');
+const inputSelector = document.querySelector('.input-field');
+const formSelector = document.querySelector('form');
 
 const taskList = [
-    'car wash',
-    'cook'
-]
+    'test1',
+    'test2',
+    'test3'
+];
+
+function deleteTask(event) {
+    const task = event.target.parentElement.parentElement.children[1].innerText;
+    console.log(task)
+    const index = taskList.indexOf(task);
+    console.log(index)
+    if (index !== -1) {
+        taskList.splice(index, 1);
+    }; 
+    console.log(taskList)
+}
 
 function listPopulation() {
     taskList.forEach((task) => {
@@ -37,9 +51,23 @@ function listPopulation() {
         spanElement3.appendChild(deleteElement);
         liElement.appendChild(spanElement3);
 
+        // adding event listener to delete element
+        deleteElement.addEventListener('click', (event) => deleteTask(event));
+
         // appending li element to the ul element
-        listContainer.appendChild(liElement);
+        listContainerSelector.appendChild(liElement);
         
     })
 }
 listPopulation();
+
+function addTask() {
+    taskList.push(inputSelector.value);
+    console.log(taskList)
+}
+addTask()
+
+formSelector.addEventListener('submit', (event) => {
+    event.preventDefault();
+    addTask();
+})
