@@ -1,25 +1,14 @@
 const listContainerSelector = document.querySelector('ul');
 const inputSelector = document.querySelector('.input-field');
 const formSelector = document.querySelector('form');
+const taskCounterSelector = document.querySelector('.task-counter');
 
 const taskList = [
-    'test1',
-    'test2',
-    'test3'
+    // tasks will be added here
 ];
 
-function deleteTask(event) {
-    const task = event.target.parentElement.parentElement.children[1].innerText;
-    console.log(task)
-    const index = taskList.indexOf(task);
-    console.log(index)
-    if (index !== -1) {
-        taskList.splice(index, 1);
-    }; 
-    console.log(taskList)
-}
-
 function listPopulation() {
+    listContainerSelector.innerHTML = ''; // avoiding stacking up same li elements after submitting
     taskList.forEach((task) => {
         // create li element
         const liElement = document.createElement('li');
@@ -57,17 +46,42 @@ function listPopulation() {
         // appending li element to the ul element
         listContainerSelector.appendChild(liElement);
         
-    })
+    });
+    taskCounterSelector.innerHTML = taskList.length; // displaying the taskList array length in the header
+    inputSelector.value = ''; // clearing the input field after submitting
 }
 listPopulation();
 
-function addTask() {
-    taskList.push(inputSelector.value);
-    console.log(taskList)
+function deleteTask(event) {
+    // selecting the paragraph inside span element to be indexed
+    const task = event.target.parentElement.parentElement.children[1].innerText;
+
+    // selecting the index of the task to be removed
+    const index = taskList.indexOf(task);
+
+    if (index !== -1) {
+        taskList.splice(index, 1);
+    }; 
+    listPopulation();
 }
-addTask()
+
+function addTask() {
+    // checking if input has a value && there is no white space in the input && value does not repeat
+    if(inputSelector.value && noWhiteSpace(inputSelector.value) && !taskList.includes(inputSelector.value)) {
+        taskList.push(inputSelector.value);       
+    }
+    listPopulation();   
+}
 
 formSelector.addEventListener('submit', (event) => {
     event.preventDefault();
     addTask();
 })
+
+function noWhiteSpace(string) {
+    const spacelessString = string.trim();
+    return spacelessString.length > 0;
+}
+
+
+
